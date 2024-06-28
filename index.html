@@ -114,55 +114,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>TechSport</td>
-                    <td><select class="rating" data-name="TechSport" onchange="updateTotal(this)">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="TechSport" onchange="updateTotal(this)">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="TechSport" onchange="updateTotal(this)">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                </tr>
-                <tr>
-                    <td>WebPulse</td>
-                    <td><select class="rating" data-name="WebPulse" onchange="updateTotal(this)">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="WebPulse" onchange="updateTotal(this)">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="WebPulse" onchange="updateTotal(this)">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                </tr>
-                <!-- Ajoutez d'autres lignes ici -->
+                <!-- Les lignes de tableau seront ajoutées ici dynamiquement -->
             </tbody>
         </table>
         <button onclick="sortTable()">🔝 Trier par Note</button>
@@ -204,6 +156,10 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            loadTable();
+        });
+
         function openForm() {
             document.getElementById('addForm').style.display = 'flex';
         }
@@ -250,6 +206,9 @@
                         <option value="5">5</option>
                     </select>`;
 
+            updateTotal(newRow);
+            saveTable();
+
             document.getElementById('newName').value = '';
             document.getElementById('newRatingGuillaume').value = '1';
             document.getElementById('newRatingAdeline').value = '1';
@@ -258,14 +217,14 @@
             closeForm();
         });
 
-        function updateTotal(selectElement) {
-            const row = selectElement.parentElement.parentElement;
+        function updateTotal(row) {
             const ratings = row.getElementsByClassName('rating');
             let total = 0;
             for (let rating of ratings) {
                 total += parseInt(rating.value);
             }
             row.setAttribute('data-total', total);
+            saveTable();
         }
 
         function sortTable() {
@@ -279,6 +238,58 @@
             });
 
             rows.forEach(row => table.appendChild(row));
+        }
+
+        function saveTable() {
+            const table = document.getElementById('nameTable').getElementsByTagName('tbody')[0];
+            const rows = Array.from(table.getElementsByTagName('tr'));
+            const data = rows.map(row => {
+                return {
+                    name: row.cells[0].innerText,
+                    guillaume: row.cells[1].querySelector('select').value,
+                    adeline: row.cells[2].querySelector('select').value,
+                    other: row.cells[3].querySelector('select').value,
+                    total: row.getAttribute('data-total')
+                };
+            });
+            localStorage.setItem('nameTableData', JSON.stringify(data));
+        }
+
+        function loadTable() {
+            const table = document.getElementById('nameTable').getElementsByTagName('tbody')[0];
+            const data = JSON.parse(localStorage.getItem('nameTableData')) || [];
+            data.forEach(rowData => {
+                const newRow = table.insertRow();
+
+                const nameCell = newRow.insertCell(0);
+                const ratingGuillaumeCell = newRow.insertCell(1);
+                const ratingAdelineCell = newRow.insertCell(2);
+                const ratingOtherCell = newRow.insertCell(3);
+
+                nameCell.innerText = rowData.name;
+                ratingGuillaumeCell.innerHTML = `<select class="rating" data-name="${rowData.name}" onchange="updateTotal(this)">
+                            <option value="1" ${rowData.guillaume == 1 ? 'selected' : ''}>1</option>
+                            <option value="2" ${rowData.guillaume == 2 ? 'selected' : ''}>2</option>
+                            <option value="3" ${rowData.guillaume == 3 ? 'selected' : ''}>3</option>
+                            <option value="4" ${rowData.guillaume == 4 ? 'selected' : ''}>4</option>
+                            <option value="5" ${rowData.guillaume == 5 ? 'selected' : ''}>5</option>
+                        </select>`;
+                ratingAdelineCell.innerHTML = `<select class="rating" data-name="${rowData.name}" onchange="updateTotal(this)">
+                            <option value="1" ${rowData.adeline == 1 ? 'selected' : ''}>1</option>
+                            <option value="2" ${rowData.adeline == 2 ? 'selected' : ''}>2</option>
+                            <option value="3" ${rowData.adeline == 3 ? 'selected' : ''}>3</option>
+                            <option value="4" ${rowData.adeline == 4 ? 'selected' : ''}>4</option>
+                            <option value="5" ${rowData.adeline == 5 ? 'selected' : ''}>5</option>
+                        </select>`;
+                ratingOtherCell.innerHTML = `<select class="rating" data-name="${rowData.name}" onchange="updateTotal(this)">
+                            <option value="1" ${rowData.other == 1 ? 'selected' : ''}>1</option>
+                            <option value="2" ${rowData.other == 2 ? 'selected' : ''}>2</option>
+                            <option value="3" ${rowData.other == 3 ? 'selected' : ''}>3</option>
+                            <option value="4" ${rowData.other == 4 ? 'selected' : ''}>4</option>
+                            <option value="5" ${rowData.other == 5 ? 'selected' : ''}>5</option>
+                        </select>`;
+                newRow.setAttribute('data-total', rowData.total);
+            });
         }
     </script>
 </body>
