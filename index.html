@@ -37,79 +37,64 @@
             overflow: hidden;
         }
         #addForm {
-            margin: 20px 0;
-            display: flex;
-            flex-wrap: wrap;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
         }
-        #addForm input[type="text"], #addForm select {
-            flex: 1;
+        #addFormContent {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 500px;
+        }
+        #addFormContent input[type="text"], #addFormContent select {
+            width: calc(100% - 22px);
             padding: 10px;
-            margin: 5px;
+            margin: 5px 0;
             font-size: 16px;
         }
-        #addForm input[type="submit"] {
+        #addFormContent input[type="submit"], #addFormContent button {
             padding: 10px 20px;
-            margin: 5px;
+            margin: 5px 0;
             background-color: #4CAF50;
             color: white;
             border: none;
             font-size: 16px;
             cursor: pointer;
+            width: 100%;
         }
-        #addForm input[type="submit"]:hover {
-            background-color: #45a049;
+        #addFormContent button {
+            background-color: #ff4c4c;
+        }
+        #addFormContent button:hover, #addFormContent input[type="submit"]:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Suggestions de Noms pour votre Société</h1>
-        <form id="addForm">
-            <input type="text" id="newName" placeholder="Nom de Société" required>
-            <input type="text" id="newJustification" placeholder="Justification" required>
-            <select id="newRatingGuillaume" required>
-                <option value="0">Choix de Guillaume</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <select id="newRatingAdeline" required>
-                <option value="0">Choix d'Adeline</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <select id="newRatingOther" required>
-                <option value="0">Autre choix</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <input type="submit" value="Ajouter">
-        </form>
+        <button onclick="openForm()">Ajouter un nom de société</button>
         <table id="nameTable">
             <thead>
                 <tr>
                     <th>Nom de Société</th>
-                    <th>Justification</th>
                     <th>Choix de Guillaume</th>
                     <th>Choix d'Adeline</th>
                     <th>Autre choix</th>
-                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>TechSport</td>
-                    <td>"Tech" pour les nouvelles technologies et "Sport" pour le dynamisme sportif.</td>
                     <td><select class="rating" data-name="TechSport" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -117,7 +102,6 @@
                         <option value="5">5</option>
                     </select></td>
                     <td><select class="rating" data-name="TechSport" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -125,20 +109,16 @@
                         <option value="5">5</option>
                     </select></td>
                     <td><select class="rating" data-name="TechSport" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select></td>
-                    <td class="total">0</td>
                 </tr>
                 <tr>
                     <td>WebPulse</td>
-                    <td>"Web" pour la conception Web et "Pulse" pour l'énergie et le dynamisme.</td>
                     <td><select class="rating" data-name="WebPulse" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -146,7 +126,6 @@
                         <option value="5">5</option>
                     </select></td>
                     <td><select class="rating" data-name="WebPulse" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -154,257 +133,63 @@
                         <option value="5">5</option>
                     </select></td>
                     <td><select class="rating" data-name="WebPulse" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select></td>
-                    <td class="total">0</td>
                 </tr>
-                <tr>
-                    <td>InnovaWeb</td>
-                    <td>"Innova" pour l'innovation, clé des nouvelles technologies et de la conception Web.</td>
-                    <td><select class="rating" data-name="InnovaWeb" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="InnovaWeb" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="InnovaWeb" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td class="total">0</td>
-                </tr>
-                <tr>
-                    <td>InfoDynamik</td>
-                    <td>"Info" pour informatique et "Dynamik" pour le dynamisme sportif.</td>
-                    <td><select class="rating" data-name="InfoDynamik" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="InfoDynamik" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="InfoDynamik" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td class="total">0</td>
-                </tr>
-                <tr>
-                    <td>WebZen</td>
-                    <td>"Web" pour conception Web et "Zen" pour la gentillesse et la tranquillité.</td>
-                    <td><select class="rating" data-name="WebZen" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="WebZen" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="WebZen" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td class="total">0</td>
-                </tr>
-                <tr>
-                    <td>TechMotion</td>
-                    <td>"Tech" pour technologie et "Motion" pour le mouvement, représentant votre dynamisme.</td>
-                    <td><select class="rating" data-name="TechMotion" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="TechMotion" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="TechMotion" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td class="total">0</td>
-                </tr>
-                <tr>
-                    <td>WebVibe</td>
-                    <td>"Web" pour conception Web et "Vibe" pour l'énergie et la bonne ambiance.</td>
-                    <td><select class="rating" data-name="WebVibe" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="WebVibe" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="WebVibe" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td class="total">0</td>
-                </tr>
-                <tr>
-                    <td>InnoTech</td>
-                    <td>"Inno" pour innovation et "Tech" pour technologie. Simple et moderne.</td>
-                    <td><select class="rating" data-name="InnoTech" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="InnoTech" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="InnoTech" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td class="total">0</td>
-                </tr>
-                <tr>
-                    <td>DigiPulse</td>
-                    <td>"Digi" pour digital et "Pulse" pour l'énergie et le dynamisme.</td>
-                    <td><select class="rating" data-name="DigiPulse" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="DigiPulse" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="DigiPulse" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td class="total">0</td>
-                </tr>
-                <tr>
-                    <td>WebSync</td>
-                    <td>"Web" pour conception Web et "Sync" pour la connexion et la synchronisation.</td>
-                    <td><select class="rating" data-name="WebSync" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="WebSync" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td><select class="rating" data-name="WebSync" onchange="updateTotal(this)">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></td>
-                    <td class="total">0</td>
-                </tr>
+                <!-- Ajoutez d'autres lignes ici -->
             </tbody>
         </table>
         <button onclick="sortTable()">Trier par Note</button>
     </div>
 
+    <div id="addForm" class="flex">
+        <div id="addFormContent">
+            <h2>Ajouter un nouveau nom de société</h2>
+            <form id="formContent">
+                <input type="text" id="newName" placeholder="Nom de Société" required>
+                <select id="newRatingGuillaume" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <select id="newRatingAdeline" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <select id="newRatingOther" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <input type="submit" value="Ajouter">
+            </form>
+            <button onclick="closeForm()">Annuler</button>
+        </div>
+    </div>
+
     <script>
-        document.getElementById('addForm').addEventListener('submit', function(e) {
+        function openForm() {
+            document.getElementById('addForm').style.display = 'flex';
+        }
+
+        function closeForm() {
+            document.getElementById('addForm').style.display = 'none';
+        }
+
+        document.getElementById('formContent').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('newName').value;
-            const justification = document.getElementById('newJustification').value;
             const ratingGuillaume = document.getElementById('newRatingGuillaume').value;
             const ratingAdeline = document.getElementById('newRatingAdeline').value;
             const ratingOther = document.getElementById('newRatingOther').value;
@@ -413,16 +198,12 @@
             const newRow = table.insertRow();
 
             const nameCell = newRow.insertCell(0);
-            const justificationCell = newRow.insertCell(1);
-            const ratingGuillaumeCell = newRow.insertCell(2);
-            const ratingAdelineCell = newRow.insertCell(3);
-            const ratingOtherCell = newRow.insertCell(4);
-            const totalCell = newRow.insertCell(5);
+            const ratingGuillaumeCell = newRow.insertCell(1);
+            const ratingAdelineCell = newRow.insertCell(2);
+            const ratingOtherCell = newRow.insertCell(3);
 
             nameCell.innerText = name;
-            justificationCell.innerText = justification;
             ratingGuillaumeCell.innerHTML = `<select class="rating" data-name="${name}" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -430,7 +211,6 @@
                         <option value="5">5</option>
                     </select>`;
             ratingAdelineCell.innerHTML = `<select class="rating" data-name="${name}" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -438,21 +218,19 @@
                         <option value="5">5</option>
                     </select>`;
             ratingOtherCell.innerHTML = `<select class="rating" data-name="${name}" onchange="updateTotal(this)">
-                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>`;
-            totalCell.className = 'total';
-            totalCell.innerText = '0';
 
             document.getElementById('newName').value = '';
-            document.getElementById('newJustification').value = '';
-            document.getElementById('newRatingGuillaume').value = '0';
-            document.getElementById('newRatingAdeline').value = '0';
-            document.getElementById('newRatingOther').value = '0';
+            document.getElementById('newRatingGuillaume').value = '1';
+            document.getElementById('newRatingAdeline').value = '1';
+            document.getElementById('newRatingOther').value = '1';
+
+            closeForm();
         });
 
         function updateTotal(selectElement) {
@@ -462,7 +240,7 @@
             for (let rating of ratings) {
                 total += parseInt(rating.value);
             }
-            row.getElementsByClassName('total')[0].innerText = total;
+            row.setAttribute('data-total', total);
         }
 
         function sortTable() {
@@ -470,8 +248,8 @@
             const rows = Array.from(table.getElementsByTagName('tr'));
 
             rows.sort((a, b) => {
-                const aTotal = parseInt(a.getElementsByClassName('total')[0].innerText) || 0;
-                const bTotal = parseInt(b.getElementsByClassName('total')[0].innerText) || 0;
+                const aTotal = parseInt(a.getAttribute('data-total')) || 0;
+                const bTotal = parseInt(b.getAttribute('data-total')) || 0;
                 return bTotal - aTotal;
             });
 
