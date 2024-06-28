@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
             margin: 0;
             padding: 20px;
         }
@@ -17,18 +17,19 @@
             margin: 25px 0;
             font-size: 18px;
             text-align: left;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
         }
         th, td {
             padding: 12px;
             border: 1px solid #ddd;
-            background-color: #fff;
         }
         th {
             background-color: #4CAF50;
             color: white;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: rgba(255, 255, 255, 0.5);
         }
         .container {
             width: 100%;
@@ -48,11 +49,13 @@
             align-items: center;
         }
         #addFormContent {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 10px;
             width: 90%;
             max-width: 500px;
+            backdrop-filter: blur(10px);
+            text-align: center;
         }
         #addFormContent input[type="text"], #addFormContent select {
             width: calc(100% - 22px);
@@ -62,7 +65,7 @@
         }
         #addFormContent input[type="submit"], #addFormContent button {
             padding: 10px 20px;
-            margin: 5px 0;
+            margin: 10px 0;
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -76,12 +79,31 @@
         #addFormContent button:hover, #addFormContent input[type="submit"]:hover {
             opacity: 0.9;
         }
+        h1, h2 {
+            text-align: center;
+        }
+        button {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Suggestions de Noms pour votre Société</h1>
-        <button onclick="openForm()">Ajouter un nom de société</button>
+        <h1>🌟 Noms pour votre Société 🌟</h1>
+        <button onclick="openForm()">➕ Ajouter un nom de société</button>
         <table id="nameTable">
             <thead>
                 <tr>
@@ -143,7 +165,7 @@
                 <!-- Ajoutez d'autres lignes ici -->
             </tbody>
         </table>
-        <button onclick="sortTable()">Trier par Note</button>
+        <button onclick="sortTable()">🔝 Trier par Note</button>
     </div>
 
     <div id="addForm" class="flex">
@@ -151,6 +173,7 @@
             <h2>Ajouter un nouveau nom de société</h2>
             <form id="formContent">
                 <input type="text" id="newName" placeholder="Nom de Société" required>
+                <label for="newRatingGuillaume">Choix de Guillaume</label>
                 <select id="newRatingGuillaume" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -158,6 +181,7 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
+                <label for="newRatingAdeline">Choix d'Adeline</label>
                 <select id="newRatingAdeline" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -165,6 +189,7 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
+                <label for="newRatingOther">Autre choix</label>
                 <select id="newRatingOther" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
